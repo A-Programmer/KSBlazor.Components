@@ -1,49 +1,3 @@
-backup/
-dist/
-docs/
-.vs/
-.code/
-.vscode/
-src/.vs/
-**/.DS_Store
-**/.DS_Store?
-**/.vs/
-**/.code/
-**/.vscode/
-**/.idea/
-
-## .NET files
-**/[Dd]ebug/
-**/[Dd]ebugPublic/
-**/[Rr]elease/
-**/[Rr]eleases/
-**/x64/
-**/x86/
-**/build/
-**/bld/
-**/[Bb]in/
-**/[Oo]bj/
-**/[Oo]ut/
-**/msbuild.log
-**/msbuild.err
-**/msbuild.wrn
-**/appsettings.json
-
-## others
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-build/
-bld/
-[Bb]in/
-[Oo]bj/
-[Oo]ut/
-msbuild.log
-msbuild.err
-msbuild.wrn
 
 # Compiled source #
 ###################
@@ -119,6 +73,12 @@ project.lock.json
 *.pyc
 nupkg/
 
+# Visual Studio and Visual Studio Code files
+.vs/
+.code/
+.vscode/
+.idea/
+
 # User-specific files
 *.suo
 *.user
@@ -129,5 +89,70 @@ nupkg/
 *.userosscache
 *.sln.docstates
 
+
+## backup directory
+backup/
+
+#Other directories
+notes/
+
+#Temp files
+temp/
+
 #### Build results
+KSBlazor.Components/.vs/
+KSBlazor.Components/.code/
+KSBlazor.Components/.vscode/
+KSBlazor.Components/.idea/
+KSBlazor.Components/KSBlazor.Components/.vs/
+KSBlazor.Components/KSBlazor.Components/.code/
+KSBlazor.Components/KSBlazor.Components/.vscode/
+KSBlazor.Components/KSBlazor.Components/.idea/
+KSBlazor.Components/KSBlazor.Components/[Oo]ut/
+KSBlazor.Components/KSBlazor.Components/[Oo]bj/
+KSBlazor.Components/KSBlazor.Components/[Bb]in/
+KSBlazor.Components/KSBlazor.Components/bld/
+KSBlazor.Components/KSBlazor.Components/build/
+KSBlazor.Components/KSBlazor.Components/x86/
+KSBlazor.Components/KSBlazor.Components/x64/
+KSBlazor.Components/KSBlazor.Components/[Rr]eleases/
+KSBlazor.Components/KSBlazor.Components/[Rr]elease/
+KSBlazor.Components/KSBlazor.Components/[Dd]ebugPublic/
+KSBlazor.Components/KSBlazor.Components/[Dd]ebug/
+
+
+**/.idea/
+**/.vs/
+**/.code/
+**/.vscode/
+**/[Oo]ut/
+**/[Oo]bj/
+**/[Bb]in/
+**/bld/
+**/build/
+**/x86/
+**/x64/
+**/[Rr]eleases/
+**/[Rr]elease/
+**/[Dd]ebugPublic/
+**/[Dd]ebug/
+**/sonarqube/
+**/.sonarqube/
+
+
+## others
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
 
