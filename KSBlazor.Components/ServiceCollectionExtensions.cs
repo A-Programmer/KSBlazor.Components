@@ -4,9 +4,9 @@ namespace KSBlazor.Components
 {
     public static class ServiceCollectionExtensions
     {
-        // public static IServiceCollection AddComponents(this IServiceCollection services)
-        // {
-        //     return services.AddScoped<KSBlazor.Components.NavBarLeftInjectableMenu>();
-        // }
+        public static IServiceCollection AddComponents(this IServiceCollection services)
+        {
+            return services.AddScoped<KSBlazor.Components.NavBarLeftInjectableMenu>();
+        }
     }
 }
