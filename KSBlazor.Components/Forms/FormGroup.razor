@@ -1,0 +1,9 @@
+﻿@namespace KSBlazor.Components
+<div class="form-group">
+    @ChildContent
+</div>
+
+@code { 
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } 
+}

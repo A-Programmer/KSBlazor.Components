@@ -1,0 +1,10 @@
+﻿@namespace KSBlazor.Components
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+	@ChildContent
+</div>
+
+@code {
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+}
