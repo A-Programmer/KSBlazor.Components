@@ -21,7 +21,6 @@
     <ReleaseNotes>First release.</ReleaseNotes>
     <RepositoryUrl>https://github.com/A-Programmer/KSBlazor.Components</RepositoryUrl>
   </PropertyGroup>
-  </PropertyGroup>
   
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
