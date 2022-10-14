@@ -1,0 +1,30 @@
+@namespace KSBlazor.Components
+@if(Value)
+{
+    <span class="@TrueSpanCssClass">
+        <i class="@TrueCssClass"></i> @TrueText
+    </span>
+}
+else
+{
+    <span class="@FalseSpanCssClass">
+        <i class="@FalseCssClass"></i> @FalseText
+    </span>
+}
+
+@code {
+    [Parameter]
+    public bool Value { get; set; }
+    [Parameter]
+    public string TrueCssClass { get; set; }
+    [Parameter]
+    public string TrueSpanCssClass { get; set; }
+    [Parameter]
+    public string TrueText { get; set; }
+    [Parameter]
+    public string FalseCssClass { get; set; }
+    [Parameter]
+    public string FalseText { get; set; }
+    [Parameter]
+    public string FalseSpanCssClass { get; set; }
+}
