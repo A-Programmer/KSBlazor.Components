@@ -22,14 +22,14 @@
                case DialogType.Save:
                   <button type="button" class="btn btn-primary"
                      @onclick=@Ok>Save</button>
-                  <button type="button" class="btn btn-warning"
-                     @onclick="@Cancel">Don't Save</button>
+                  <button type="button" class="btn btn-secondary"
+                     @onclick="@Cancel">Cancel</button>
                   break;
                case DialogType.Delete:
                   <button type="button" class="btn btn-danger"
                      @onclick=@Ok>Delete</button>
-                  <button type="button" class="btn btn-warning"
-                     @onclick="@Cancel">Don't Delete</button>
+                  <button type="button" class="btn btn-secondary"
+                     @onclick="@Cancel">Cancel</button>
                   break;
             }
          </div>
