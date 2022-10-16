@@ -62,6 +62,7 @@
     [Parameter] public string ActiveLiClass { get; set; }
     [Parameter] public string ActiveAnchorClass { get; set; }
     [Parameter] public string PageUrl { get; set; }
+    [Parameter] public EventCallback<int> SelectedPage { get; set; }
     #endregion
  
     public string CreatePaging()
@@ -81,6 +82,7 @@
             TagBuilder previousPageLi = new("li");
             previousPageLi.AddCssClass(PreviousLiCssClass);
             TagBuilder previousAnchor = new("a");
+            previousAnchor.Attributes["@onclick"] = "() => OnSelectedPage(1)";
             
             previousAnchor.Attributes["href"] = pageUrl;
             previousAnchor.AddCssClass(PreviousAnchorCssClass);
@@ -124,7 +126,7 @@
                 pageLi.AddCssClass(PagesLiClass);
                 pageAnchor.AddCssClass(PagesAnchorClass);
             }
-
+            pageAnchor.Attributes["@onclick"] = $"() => OnSelectedPage({i})";
             pageAnchor.InnerHtml.Append(anchorInnerHtml);
             pageLi.InnerHtml.AppendHtml(pageAnchor);
  
@@ -145,6 +147,7 @@
             TagBuilder nextPageLi = new("li");
             nextPageLi.AddCssClass(NextLiCssClass);
             TagBuilder nextAnchor = new("a");
+            nextAnchor.Attributes["@onclick"] = $"() => OnSelectedPage({PageInfo.TotalPages})";
             
             nextAnchor.Attributes["href"] = pageUrl;
             nextAnchor.AddCssClass(NextAnchorCssClass);
