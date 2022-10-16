@@ -95,7 +95,7 @@
  
         for (int i = 1; i <= PageInfo.TotalPages; i++)
         {
-            var pageUrl = $"{PageUrl}?page={i + 1}";
+            var pageUrl = $"{PageUrl}?page={i}";
             if (PageInfo.SearchTerm != null)
                 pageUrl += $"&search={PageInfo.SearchTerm}";
             if (PageInfo.OrderByProperty != null)
