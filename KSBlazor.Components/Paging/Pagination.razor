@@ -61,7 +61,7 @@
     [Parameter] public string ActiveLiClass { get; set; }
     [Parameter] public string ActiveAnchorClass { get; set; }
     [Parameter] public string PageUrl { get; set; }
-    [Parameter] public EventCallback SelectedPage { get; set; }
+    [Parameter] public EventCallback<int> SelectedPage { get; set; }
     #endregion
     
     private async Task OnSelectedPage(int pageIndex)
