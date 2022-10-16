@@ -8,7 +8,7 @@
         @if (HasPreviousButton)
         {
             <li class="@PreviousLiCssClass">
-                <button @onclick="OnSelectedPage" class="@PreviousAnchorCssClass" aria-label="Previous">
+                <button @onclick="() => OnSelectedPage(1)" class="@PreviousAnchorCssClass" aria-label="Previous">
                     <i class="@PreviousIconClass"></i>
                 </button>
             </li>
@@ -19,13 +19,13 @@
             @if (i == PageInfo.CurrentPage)
             {
                 <li class="@ActiveLiClass">
-                    <button @onclick="OnSelectedPage" class="@ActiveAnchorClass">@i</button>
+                    <button @onclick="() => OnSelectedPage(i)" class="@ActiveAnchorClass">@i</button>
                 </li>
             }
             else
             {
                 <li class="@PagesLiClass">
-                    <button @onclick="OnSelectedPage" class="@PagesAnchorClass">@i</button>
+                    <button @onclick="() => OnSelectedPage(i)" class="@PagesAnchorClass">@i</button>
                 </li>
             }
 
@@ -34,7 +34,7 @@
         @if (HasNextButton)
         {
             <li class="@NextLiCssClass">
-                <buttun @onclick="OnSelectedPage" class="@NextAnchorCssClass" aria-label="Next">
+                <buttun @onclick="() => OnSelectedPage(PageInfo.TotalPages)" class="@NextAnchorCssClass" aria-label="Next">
                     <i class="@NextIconClass"></i>
                 </buttun>
             </li>
@@ -64,9 +64,9 @@
     [Parameter] public EventCallback SelectedPage { get; set; }
     #endregion
     
-    private async Task OnSelectedPage()
+    private async Task OnSelectedPage(int pageIndex)
     {
-        await SelectedPage.InvokeAsync(null);
+        await SelectedPage.InvokeAsync(pageIndex);
     }
  
     public static string AnchorInnerHtml(int i, PagingInfo pagingInfo)
