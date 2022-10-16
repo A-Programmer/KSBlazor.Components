@@ -2,47 +2,46 @@
 @using Microsoft.AspNetCore.Html
 @namespace KSBlazor.Components
 
-<style>
-    .pagingDiv {
-        background: #f2f2f2;
-        display: flex;
-    }
- 
-        .pagingDiv > a {
-            display: inline-block;
-            padding: 0px 9px;
-            margin-right: 4px;
-            border-radius: 3px;
-            border: solid 1px #c0c0c0;
-            background: #e9e9e9;
-            box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1);
-            font-size: .875em;
-            font-weight: bold;
-            text-decoration: none;
-            color: #717171;
-            text-shadow: 0px 1px 0px rgba(255,255,255, 1);
-        }
- 
-            .pagingDiv > a:hover {
-                background: #fefefe;
-                background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FEFEFE), to(#f0f0f0));
-                /*background: -moz-linear-gradient(0% 0% 270deg,#FEFEFE, #f0f0f0);*/
-            }
- 
-            .pagingDiv > a.active {
-                border: none;
-                background: #616161;
-                box-shadow: inset 0px 0px 8px rgba(0,0,0, .5), 0px 1px 0px rgba(255,255,255, .8);
-                color: #f0f0f0;
-                text-shadow: 0px 0px 3px rgba(0,0,0, .5);
-            }
-</style>
- 
+<!--Pagination-->
 <nav aria-label="Page navigation" class="@ParentNavCssClass">
     <ul class="@ParentUlCssClass">
-        @((MarkupString)CreatePaging())
+        @if (HasPreviousButton)
+        {
+            <li class="@PreviousLiCssClass">
+                <button @onclick="OnSelectedPage" class="@PreviousAnchorCssClass" aria-label="Previous">
+                    <i class="@PreviousIconClass"></i>
+                </button>
+            </li>
+        }
+        
+        @for (int i = 1; i <= PageInfo.TotalPages; i++)
+        {
+            @if (i == PageInfo.CurrentPage)
+            {
+                <li class="@ActiveLiClass">
+                    <button @onclick="OnSelectedPage" class="@ActiveAnchorClass">@i</button>
+                </li>
+            }
+            else
+            {
+                <li class="@PagesLiClass">
+                    <button @onclick="OnSelectedPage" class="@PagesAnchorClass">@i</button>
+                </li>
+            }
+
+        }
+        
+        @if (HasNextButton)
+        {
+            <li class="@NextLiCssClass">
+                <buttun @onclick="OnSelectedPage" class="@NextAnchorCssClass" aria-label="Next">
+                    <i class="@NextIconClass"></i>
+                </buttun>
+            </li>
+        }
     </ul>
 </nav>
+<!--End of Pagination-->
 
 @code {
     #region Parameters
@@ -62,102 +61,12 @@
     [Parameter] public string ActiveLiClass { get; set; }
     [Parameter] public string ActiveAnchorClass { get; set; }
     [Parameter] public string PageUrl { get; set; }
+    [Parameter] public EventCallback SelectedPage { get; set; }
     #endregion
- 
-    public string CreatePaging()
+    
+    private async Task OnSelectedPage()
     {
-        TagBuilder result = new("ul");
-        result.AddCssClass(ParentUlCssClass);
-        if (HasPreviousButton)
-        {
-            var pageUrl = $"{PageUrl}?page={PageInfo.CurrentPage - 1}";
-            if (PageInfo.SearchTerm != null)
-                pageUrl += $"&search={PageInfo.SearchTerm}";
-            if (PageInfo.OrderByProperty != null)
-                pageUrl += $"&orderby={PageInfo.OrderByProperty}";
-            if (PageInfo.Descending != null)
-                pageUrl += $"&descending={PageInfo.Descending}";
-
-            TagBuilder previousPageLi = new("li");
-            previousPageLi.AddCssClass(PreviousLiCssClass);
-            TagBuilder previousAnchor = new("a");
-            
-            previousAnchor.Attributes["href"] = pageUrl;
-            previousAnchor.AddCssClass(PreviousAnchorCssClass);
-            TagBuilder previousIcon = new("i");
-            previousIcon.AddCssClass(PreviousIconClass);
-            previousAnchor.InnerHtml.AppendHtml(previousIcon);
-            previousPageLi.InnerHtml.AppendHtml(previousAnchor);
-            result.InnerHtml.AppendHtml(previousPageLi);
-        }
-
-        string anchorInnerHtml = "";
- 
-        for (int i = 1; i <= PageInfo.TotalPages; i++)
-        {
-            var pageUrl = $"{PageUrl}?page={i}";
-            if (PageInfo.SearchTerm != null)
-                pageUrl += $"&search={PageInfo.SearchTerm}";
-            if (PageInfo.OrderByProperty != null)
-                pageUrl += $"&orderby={PageInfo.OrderByProperty}";
-            if (PageInfo.Descending != null)
-                pageUrl += $"&descending={PageInfo.Descending}";
-
-            TagBuilder pageLi = new("li");
-            TagBuilder pageAnchor = new TagBuilder("a");
-            anchorInnerHtml = AnchorInnerHtml(i, PageInfo);
-            
-            if (anchorInnerHtml == "..")
-                pageAnchor.Attributes["href"] = "#";
-            else if (i == 1)
-                pageAnchor.Attributes["href"] = PageUrl;
-            else
-                pageAnchor.Attributes["href"] = pageUrl;
- 
-            if (i == PageInfo.CurrentPage)
-            {
-                pageLi.AddCssClass(ActiveLiClass);
-                pageAnchor.AddCssClass(ActiveAnchorClass);
-            }
-            else
-            {
-                pageLi.AddCssClass(PagesLiClass);
-                pageAnchor.AddCssClass(PagesAnchorClass);
-            }
-
-            pageAnchor.InnerHtml.Append(anchorInnerHtml);
-            pageLi.InnerHtml.AppendHtml(pageAnchor);
- 
-            if (anchorInnerHtml != "")
-                result.InnerHtml.AppendHtml(pageLi);
-        }
-        
-        if (HasNextButton)
-        {
-            var pageUrl = $"{PageUrl}?page={PageInfo.CurrentPage + 1}";
-            if (PageInfo.SearchTerm != null)
-                pageUrl += $"&search={PageInfo.SearchTerm}";
-            if (PageInfo.OrderByProperty != null)
-                pageUrl += $"&orderby={PageInfo.OrderByProperty}";
-            if (PageInfo.Descending != null)
-                pageUrl += $"&descending={PageInfo.Descending}";
-
-            TagBuilder nextPageLi = new("li");
-            nextPageLi.AddCssClass(NextLiCssClass);
-            TagBuilder nextAnchor = new("a");
-            
-            nextAnchor.Attributes["href"] = pageUrl;
-            nextAnchor.AddCssClass(NextAnchorCssClass);
-            TagBuilder nextIcon = new("i");
-            nextIcon.AddCssClass(NextIconClass);
-            nextAnchor.InnerHtml.AppendHtml(nextIcon);
-            nextPageLi.InnerHtml.AppendHtml(nextAnchor);
-            result.InnerHtml.AppendHtml(nextPageLi);
-        }
- 
-        System.IO.StringWriter writer = new System.IO.StringWriter();
-        result.InnerHtml.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
-        return writer.ToString();
+        await SelectedPage.InvokeAsync(null);
     }
  
     public static string AnchorInnerHtml(int i, PagingInfo pagingInfo)
