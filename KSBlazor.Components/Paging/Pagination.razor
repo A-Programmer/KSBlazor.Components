@@ -8,33 +8,33 @@
         @if (HasPreviousButton)
         {
             <li class="@PreviousLiCssClass">
-                <button @onclick="() => OnSelectedPage(1)" class="@PreviousAnchorCssClass" aria-label="Previous">
+                <button @onclick="() => OnSelectedPage(PageInfo.CurrentPage--)" class="@PreviousAnchorCssClass" aria-label="Previous">
                     <i class="@PreviousIconClass"></i>
                 </button>
             </li>
         }
         
-        @for (int i = 1; i <= PageInfo.TotalPages; i++)
-        {
-            @if (i == PageInfo.CurrentPage)
-            {
-                <li class="@ActiveLiClass">
-                    <button @onclick="() => OnSelectedPage(pagesNumber[i - 1])" class="@ActiveAnchorClass">@i</button>
-                </li>
-            }
-            else
-            {
-                <li class="@PagesLiClass">
-                    <button @onclick="() => OnSelectedPage(pagesNumber[i - 1])" class="@PagesAnchorClass">@i</button>
-                </li>
-            }
-
-        }
+        @* @for (int i = 1; i <= PageInfo.TotalPages; i++) *@
+        @* { *@
+        @*     @if (i == PageInfo.CurrentPage) *@
+        @*     { *@
+        @*         <li class="@ActiveLiClass"> *@
+        @*             <button @onclick="() => OnSelectedPage(pagesNumber[i - 1])" class="@ActiveAnchorClass">@i</button> *@
+        @*         </li> *@
+        @*     } *@
+        @*     else *@
+        @*     { *@
+        @*         <li class="@PagesLiClass"> *@
+        @*             <button @onclick="() => OnSelectedPage(pagesNumber[i - 1])" class="@PagesAnchorClass">@i</button> *@
+        @*         </li> *@
+        @*     } *@
+        @* *@
+        @* } *@
         
         @if (HasNextButton)
         {
             <li class="@NextLiCssClass">
-                <buttun @onclick="() => OnSelectedPage(PageInfo.TotalPages)" class="@NextAnchorCssClass" aria-label="Next">
+                <buttun @onclick="() => OnSelectedPage(PageInfo.CurrentPage++)" class="@NextAnchorCssClass" aria-label="Next">
                     <i class="@NextIconClass"></i>
                 </buttun>
             </li>
@@ -62,18 +62,17 @@
     [Parameter] public string ActiveAnchorClass { get; set; }
     [Parameter] public string PageUrl { get; set; }
     [Parameter] public EventCallback<int> SelectedPage { get; set; }
-    
-    private int[] pagesNumber { get; set; }
+    // private int[] pagesNumber { get; set; }
     #endregion
 
-    protected override void OnParametersSet()
-    {
-        pagesNumber = new int[PageInfo.TotalPages];
-        for (var i = 1; i <= PageInfo.TotalPages; i++)
-        {
-            pagesNumber[i - 1] = i;
-        }
-    }
+    // protected override void OnParametersSet()
+    // {
+    //     pagesNumber = new int[PageInfo.TotalPages + 1];
+    //     for (var i = 1; i <= PageInfo.TotalPages; i++)
+    //     {
+    //         pagesNumber[i - 1] = i;
+    //     }
+    // }
 
     private async Task OnSelectedPage(int pageIndex)
     {
