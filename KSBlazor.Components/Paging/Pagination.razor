@@ -66,18 +66,18 @@
  
     public string CreatePaging()
     {
-        var pageUrl = $"{PageUrl}?page={PageInfo.CurrentPage}";
-        if (PageInfo.SearchTerm != null)
-            pageUrl += $"&search={PageInfo.SearchTerm}";
-        if (PageInfo.OrderByProperty != null)
-            pageUrl += $"&orderby={PageInfo.OrderByProperty}";
-        if (PageInfo.Descending != null)
-            pageUrl += $"&descending={PageInfo.Descending}";
-        
         TagBuilder result = new("ul");
         result.AddCssClass(ParentUlCssClass);
         if (HasPreviousButton)
         {
+            var pageUrl = $"{PageUrl}?page={PageInfo.CurrentPage - 1}";
+            if (PageInfo.SearchTerm != null)
+                pageUrl += $"&search={PageInfo.SearchTerm}";
+            if (PageInfo.OrderByProperty != null)
+                pageUrl += $"&orderby={PageInfo.OrderByProperty}";
+            if (PageInfo.Descending != null)
+                pageUrl += $"&descending={PageInfo.Descending}";
+
             TagBuilder previousPageLi = new("li");
             previousPageLi.AddCssClass(PreviousLiCssClass);
             TagBuilder previousAnchor = new("a");
@@ -95,6 +95,14 @@
  
         for (int i = 1; i <= PageInfo.TotalPages; i++)
         {
+            var pageUrl = $"{PageUrl}?page={i + 1}";
+            if (PageInfo.SearchTerm != null)
+                pageUrl += $"&search={PageInfo.SearchTerm}";
+            if (PageInfo.OrderByProperty != null)
+                pageUrl += $"&orderby={PageInfo.OrderByProperty}";
+            if (PageInfo.Descending != null)
+                pageUrl += $"&descending={PageInfo.Descending}";
+
             TagBuilder pageLi = new("li");
             TagBuilder pageAnchor = new TagBuilder("a");
             anchorInnerHtml = AnchorInnerHtml(i, PageInfo);
@@ -126,6 +134,14 @@
         
         if (HasNextButton)
         {
+            var pageUrl = $"{PageUrl}?page={PageInfo.CurrentPage + 1}";
+            if (PageInfo.SearchTerm != null)
+                pageUrl += $"&search={PageInfo.SearchTerm}";
+            if (PageInfo.OrderByProperty != null)
+                pageUrl += $"&orderby={PageInfo.OrderByProperty}";
+            if (PageInfo.Descending != null)
+                pageUrl += $"&descending={PageInfo.Descending}";
+
             TagBuilder nextPageLi = new("li");
             nextPageLi.AddCssClass(NextLiCssClass);
             TagBuilder nextAnchor = new("a");
