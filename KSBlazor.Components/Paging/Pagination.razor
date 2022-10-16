@@ -39,7 +39,9 @@
 </style>
  
 <nav aria-label="Page navigation" class="@ParentNavCssClass">
-    @((MarkupString)CreatePaging())
+    <ul class="@ParentUlCssClass">
+        @((MarkupString)CreatePaging())
+    </ul>
 </nav>
 
 @code {
@@ -89,27 +91,6 @@
             result.InnerHtml.AppendHtml(previousPageLi);
         }
 
-        for (var i = 1; i <= PageInfo.TotalPages; i++)
-        {
-            TagBuilder pageLi = new("li");
-            TagBuilder pageAnchor = new("a");
-            pageAnchor.InnerHtml.Append(i.ToString());
-            if (i == PageInfo.CurrentPage)
-            {
-                pageLi.AddCssClass(ActiveLiClass);
-                pageAnchor.AddCssClass(ActiveAnchorClass);
-            }
-            else
-            {
-                pageLi.AddCssClass(PagesLiClass);
-                pageAnchor.AddCssClass(PagesAnchorClass);
-
-                pageAnchor.Attributes["href"] = pageUrl;
-            }
-            pageLi.InnerHtml.AppendHtml(pageAnchor);
-            result.InnerHtml.AppendHtml(pageLi);
-        }
-        
         string anchorInnerHtml = "";
  
         for (int i = 1; i <= PageInfo.TotalPages; i++)
