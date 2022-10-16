@@ -66,9 +66,9 @@
  
     public string CreatePaging()
     {
-        var pageUrl = $"{PageUrl}/{PageInfo.CurrentPage}?";
+        var pageUrl = $"{PageUrl}?page={PageInfo.CurrentPage}";
         if (PageInfo.SearchTerm != null)
-            pageUrl += $"search={PageInfo.SearchTerm}";
+            pageUrl += $"&search={PageInfo.SearchTerm}";
         if (PageInfo.OrderByProperty != null)
             pageUrl += $"&orderby={PageInfo.OrderByProperty}";
         if (PageInfo.Descending != null)
