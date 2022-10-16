@@ -68,6 +68,7 @@
 
     protected override void OnParametersSet()
     {
+        pagesNumber = new int[PageInfo.TotalPages];
         for (var i = 1; i <= PageInfo.TotalPages; i++)
         {
             pagesNumber[i - 1] = i;
