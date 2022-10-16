@@ -19,13 +19,13 @@
             @if (i == PageInfo.CurrentPage)
             {
                 <li class="@ActiveLiClass">
-                    <button @onclick="() => OnSelectedPage(i)" class="@ActiveAnchorClass">@i</button>
+                    <button @onclick="() => OnSelectedPage(pagesNumber[i - 1])" class="@ActiveAnchorClass">@i</button>
                 </li>
             }
             else
             {
                 <li class="@PagesLiClass">
-                    <button @onclick="() => OnSelectedPage(i)" class="@PagesAnchorClass">@i</button>
+                    <button @onclick="() => OnSelectedPage(pagesNumber[i - 1])" class="@PagesAnchorClass">@i</button>
                 </li>
             }
 
@@ -62,8 +62,18 @@
     [Parameter] public string ActiveAnchorClass { get; set; }
     [Parameter] public string PageUrl { get; set; }
     [Parameter] public EventCallback<int> SelectedPage { get; set; }
-    #endregion
     
+    private int[] pagesNumber { get; set; }
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        for (var i = 1; i <= PageInfo.TotalPages; i++)
+        {
+            pagesNumber[i - 1] = i;
+        }
+    }
+
     private async Task OnSelectedPage(int pageIndex)
     {
         await SelectedPage.InvokeAsync(pageIndex);
