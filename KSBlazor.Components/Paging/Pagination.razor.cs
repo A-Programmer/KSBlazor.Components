@@ -11,8 +11,6 @@ public class PagingInfo
     public int TotalItems { get; set; }
     public int PageSize { get; set; }
     public int CurrentPage { get; set; }
-    public string NextButtonCssClass { get; set; }
-    public string PrevButtonCssClass { get; set; }
     public string? SearchTerm { get; set; }
     public string? OrderByProperty { get; set; }
     public bool ShowPagination { get; set; }
