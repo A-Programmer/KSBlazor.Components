@@ -1,4 +1,5 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Html
 @namespace KSBlazor.Components
 
 <style>
@@ -37,48 +38,126 @@
             }
 </style>
  
-<div class="pagingDiv">@((MarkupString)CreatePaging())</div>
+<nav aria-label="Page navigation" class="@ParentNavCssClass">
+    @((MarkupString)CreatePaging())
+</nav>
 
 @code {
-    [Parameter]
-    public PagingInfo PI { get; set; }
- 
-    [Parameter]
-    public bool PageClassesEnabled { get; set; } = false;
- 
-    [Parameter]
-    public string PageClass { get; set; }
- 
-    [Parameter]
-    public string PageClassSelected { get; set; }
+    #region Parameters
+    [Parameter] public PagingInfo PageInfo { get; set; }
+    [Parameter] public string ParentNavCssClass { get; set; }
+    [Parameter] public string ParentUlCssClass { get; set; }
+    [Parameter] public string PreviousLiCssClass { get; set; }
+    [Parameter] public string PreviousAnchorCssClass { get; set; }
+    [Parameter] public string PreviousIconClass { get; set; }
+    [Parameter] public bool HasPreviousButton { get; set; }
+    [Parameter] public string NextLiCssClass { get; set; }
+    [Parameter] public string NextAnchorCssClass { get; set; }
+    [Parameter] public string NextIconClass { get; set; }
+    [Parameter] public bool HasNextButton { get; set; }
+    [Parameter] public string PagesLiClass { get; set; }
+    [Parameter] public string PagesAnchorClass { get; set; }
+    [Parameter] public string ActiveLiClass { get; set; }
+    [Parameter] public string ActiveAnchorClass { get; set; }
+    [Parameter] public string PageClass { get; set; }
+    [Parameter] public string PageClassSelected { get; set; }
+    [Parameter] public string PageUrl { get; set; }
+    #endregion
  
     public string CreatePaging()
     {
-        TagBuilder result = new TagBuilder("div");
+        var pageUrl = $"{PageUrl}/{PageInfo.CurrentPage}?";
+        if (PageInfo.SearchTerm != null)
+            pageUrl += $"search={PageInfo.SearchTerm}";
+        if (PageInfo.OrderByProperty != null)
+            pageUrl += $"&orderby={PageInfo.OrderByProperty}";
+        if (PageInfo.Descending != null)
+            pageUrl += $"&descending={PageInfo.Descending}";
+        
+        TagBuilder result = new("ul");
+        result.AddCssClass(ParentUlCssClass);
+        if (HasPreviousButton)
+        {
+            TagBuilder previousPageLi = new("li");
+            previousPageLi.AddCssClass(PreviousLiCssClass);
+            TagBuilder previousAnchor = new("a");
+            
+            previousAnchor.Attributes["href"] = pageUrl;
+            previousAnchor.AddCssClass(PreviousAnchorCssClass);
+            TagBuilder previousIcon = new("i");
+            previousIcon.AddCssClass(PreviousIconClass);
+            previousAnchor.InnerHtml.AppendHtml(previousIcon);
+            previousPageLi.InnerHtml.AppendHtml(previousAnchor);
+            result.InnerHtml.AppendHtml(previousPageLi);
+        }
+
+        for (var i = 1; i <= PageInfo.TotalPages; i++)
+        {
+            TagBuilder pageLi = new("li");
+            TagBuilder pageAnchor = new("a");
+            pageAnchor.InnerHtml.Append(i.ToString());
+            if (i == PageInfo.CurrentPage)
+            {
+                pageLi.AddCssClass(ActiveLiClass);
+                pageAnchor.AddCssClass(ActiveAnchorClass);
+            }
+            else
+            {
+                pageLi.AddCssClass(PagesLiClass);
+                pageAnchor.AddCssClass(PagesAnchorClass);
+
+                pageAnchor.Attributes["href"] = pageUrl;
+            }
+            pageLi.InnerHtml.AppendHtml(pageAnchor);
+            result.InnerHtml.AppendHtml(pageLi);
+        }
+        
         string anchorInnerHtml = "";
  
-        for (int i = 1; i <= PI.TotalPages; i++)
+        for (int i = 1; i <= PageInfo.TotalPages; i++)
         {
-            TagBuilder tag = new TagBuilder("a");
-            anchorInnerHtml = AnchorInnerHtml(i, PI);
- 
+            TagBuilder pageLi = new("li");
+            TagBuilder pageAnchor = new TagBuilder("a");
+            anchorInnerHtml = AnchorInnerHtml(i, PageInfo);
+            
             if (anchorInnerHtml == "..")
-                tag.Attributes["href"] = "#";
+                pageAnchor.Attributes["href"] = "#";
             else if (i == 1)
-                tag.Attributes["href"] = "/ReadStudentPS";
+                pageAnchor.Attributes["href"] = PageUrl;
             else
-                tag.Attributes["href"] = "/ReadStudentPS/" + i;
+                pageAnchor.Attributes["href"] = pageUrl;
  
-            if (PageClassesEnabled)
+            if (i == PageInfo.CurrentPage)
             {
-                tag.AddCssClass(PageClass);
-                tag.AddCssClass(i == PI.CurrentPage ? PageClassSelected : "");
+                pageLi.AddCssClass(ActiveLiClass);
+                pageAnchor.AddCssClass(ActiveAnchorClass);
             }
- 
-            tag.InnerHtml.Append(anchorInnerHtml);
+            else
+            {
+                pageLi.AddCssClass(PagesLiClass);
+                pageAnchor.AddCssClass(PagesAnchorClass);
+            }
+
+            pageAnchor.InnerHtml.Append(anchorInnerHtml);
+            pageLi.InnerHtml.AppendHtml(pageAnchor);
  
             if (anchorInnerHtml != "")
-                result.InnerHtml.AppendHtml(tag);
+                result.InnerHtml.AppendHtml(pageLi);
+        }
+        
+        if (HasNextButton)
+        {
+            TagBuilder nextPageLi = new("li");
+            nextPageLi.AddCssClass(NextLiCssClass);
+            TagBuilder nextAnchor = new("a");
+            
+            nextAnchor.Attributes["href"] = pageUrl;
+            nextAnchor.AddCssClass(NextAnchorCssClass);
+            TagBuilder nextIcon = new("i");
+            nextIcon.AddCssClass(NextIconClass);
+            nextAnchor.InnerHtml.AppendHtml(nextIcon);
+            nextPageLi.InnerHtml.AppendHtml(nextAnchor);
+            result.InnerHtml.AppendHtml(nextPageLi);
         }
  
         System.IO.StringWriter writer = new System.IO.StringWriter();
