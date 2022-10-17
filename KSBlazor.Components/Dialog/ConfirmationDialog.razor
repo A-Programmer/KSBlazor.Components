@@ -31,6 +31,8 @@
                   <button type="button" class="btn btn-secondary"
                      @onclick="@Cancel">Cancel</button>
                   break;
+               case DialogType.None :
+                  break;
             }
          </div>
       </div>
@@ -54,6 +56,7 @@ public enum DialogType
    {
       Okay,
       Save,
-      Delete
+      Delete,
+      None
    }
 }
