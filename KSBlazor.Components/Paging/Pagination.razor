@@ -7,37 +7,54 @@
     <ul class="@ParentUlCssClass">
         @if (HasPreviousButton)
         {
+            if (PageInfo.CurrentPage > 2)
+            {
+                <li class="@FirstLiCssClass">
+                    <button @onclick="() => SelectedPageEvent.InvokeAsync(1)" class="@FirstAnchorCssClass" aria-label="Previous">
+                        <i class="@FirstIconClass"></i>
+                    </button>
+                </li>
+            }
             <li class="@PreviousLiCssClass">
-                <button @onclick="() => OnSelectedPage(PageInfo.CurrentPage - 1)" class="@PreviousAnchorCssClass" aria-label="Previous">
+                <button @onclick="() => SelectedPageEvent.InvokeAsync(PageInfo.CurrentPage - 1)" class="@PreviousAnchorCssClass" aria-label="Previous">
                     <i class="@PreviousIconClass"></i>
                 </button>
             </li>
         }
         
-        @* @for (int i = 1; i <= PageInfo.TotalPages; i++) *@
-        @* { *@
-        @*     @if (i == PageInfo.CurrentPage) *@
-        @*     { *@
-        @*         <li class="@ActiveLiClass"> *@
-        @*             <button @onclick="() => OnSelectedPage(pagesNumber[i - 1])" class="@ActiveAnchorClass">@i</button> *@
-        @*         </li> *@
-        @*     } *@
-        @*     else *@
-        @*     { *@
-        @*         <li class="@PagesLiClass"> *@
-        @*             <button @onclick="() => OnSelectedPage(pagesNumber[i - 1])" class="@PagesAnchorClass">@i</button> *@
-        @*         </li> *@
-        @*     } *@
-        @* *@
-        @* } *@
+        @for (int i = 1; i <= PageInfo.TotalPages; i++)
+        {
+            @if (i == PageInfo.CurrentPage)
+            {
+                <li class="@ActiveLiClass">
+                    <button @onclick="() => SelectedPageEvent.InvokeAsync(i)" class="@ActiveAnchorClass">@i</button>
+                </li>
+            }
+            else
+            {
+                <li class="@PagesLiClass">
+                    <button @onclick="() => SelectedPageEvent.InvokeAsync(i)" class="@PagesAnchorClass">@i</button>
+                </li>
+            }
+        
+        }
         
         @if (HasNextButton)
         {
             <li class="@NextLiCssClass">
-                <buttun @onclick="() => OnSelectedPage(PageInfo.CurrentPage + 1)" class="@NextAnchorCssClass" aria-label="Next">
+                <buttun @onclick="() => SelectedPageEvent.InvokeAsync(PageInfo.CurrentPage + 1)" class="@NextAnchorCssClass" aria-label="Next">
                     <i class="@NextIconClass"></i>
                 </buttun>
             </li>
+            @if ((PageInfo.CurrentPage + 1) < PageInfo.TotalPages)
+            {
+                <li class="@LastLiCssClass">
+                    <buttun @onclick="() => SelectedPageEvent.InvokeAsync(PageInfo.TotalPages)" class="@LastAnchorCssClass" aria-label="Next">
+                        <i class="@LastIconClass"></i>
+                    </buttun>
+                </li>
+            }
+            
         }
     </ul>
 </nav>
@@ -52,16 +69,24 @@
     [Parameter] public string PreviousAnchorCssClass { get; set; }
     [Parameter] public string PreviousIconClass { get; set; }
     [Parameter] public bool HasPreviousButton { get; set; }
+    [Parameter] public string FirstLiCssClass { get; set; }
+    [Parameter] public string FirstAnchorCssClass { get; set; }
+    [Parameter] public string FirstIconClass { get; set; }
     [Parameter] public string NextLiCssClass { get; set; }
     [Parameter] public string NextAnchorCssClass { get; set; }
     [Parameter] public string NextIconClass { get; set; }
     [Parameter] public bool HasNextButton { get; set; }
+    [Parameter] public string LastLiCssClass { get; set; }
+    [Parameter] public string LastAnchorCssClass { get; set; }
+    [Parameter] public string LastIconClass { get; set; }
     [Parameter] public string PagesLiClass { get; set; }
     [Parameter] public string PagesAnchorClass { get; set; }
     [Parameter] public string ActiveLiClass { get; set; }
     [Parameter] public string ActiveAnchorClass { get; set; }
     [Parameter] public string PageUrl { get; set; }
-    [Parameter] public EventCallback<int> SelectedPage { get; set; }
+    [Parameter] public EventCallback PreviousPageEvent { get; set; }
+    [Parameter] public EventCallback NextPageEvent { get; set; }
+    [Parameter] public EventCallback<int> SelectedPageEvent { get; set; }
     // private int[] pagesNumber { get; set; }
     #endregion
 
@@ -73,11 +98,6 @@
     //         pagesNumber[i - 1] = i;
     //     }
     // }
-
-    private async Task OnSelectedPage(int pageIndex)
-    {
-        await SelectedPage.InvokeAsync(pageIndex);
-    }
  
     public static string AnchorInnerHtml(int i, PagingInfo pagingInfo)
     {
