@@ -1,5 +1,4 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
-@using Microsoft.AspNetCore.Html
 @namespace KSBlazor.Components
 
 <!--Pagination-->
@@ -24,16 +23,17 @@
         
         @for (int i = 1; i <= PageInfo.TotalPages; i++)
         {
-            @if (i == PageInfo.CurrentPage)
+            var currentIndex = i;
+            if(i == PageInfo.CurrentPage)
             {
                 <li class="@ActiveLiClass">
-                    <button @onclick="() => SelectedPageEvent.InvokeAsync(i)" class="@ActiveAnchorClass">@i</button>
+                    <button @onclick="() => SelectedPageEvent.InvokeAsync(currentIndex)" class="@ActiveAnchorClass">@i</button>
                 </li>
             }
             else
             {
                 <li class="@PagesLiClass">
-                    <button @onclick="() => SelectedPageEvent.InvokeAsync(i)" class="@PagesAnchorClass">@i</button>
+                    <button @onclick="() => SelectedPageEvent.InvokeAsync(currentIndex)" class="@PagesAnchorClass">@i</button>
                 </li>
             }
         
