@@ -16,17 +16,17 @@
             @switch (Type)
             {
                case DialogType.Okay:
-                  <button type="button" class="btn btn-primary"
+                  <button type="submit" form="@FormId" class="btn btn-primary"
                           @onclick=@Ok>OK</button>
                   break;
                case DialogType.Save:
-                  <button type="button" class="btn btn-primary"
+                  <button type="submit" form="@FormId" class="btn btn-primary"
                      @onclick=@Ok>Save</button>
                   <button type="button" class="btn btn-secondary"
                      @onclick="@Cancel">Cancel</button>
                   break;
                case DialogType.Delete:
-                  <button type="button" class="btn btn-danger"
+                  <button type="submit" form="@FormId" class="btn btn-danger"
                      @onclick=@Ok>Delete</button>
                   <button type="button" class="btn btn-secondary"
                      @onclick="@Cancel">Cancel</button>
@@ -42,6 +42,7 @@
    [Parameter] public string Caption { get; set; }
    [Parameter] public string Message { get; set; }
    [Parameter] public EventCallback<bool> OnClose { get; set; }
+   [Parameter] public string FormId { get; set; }
    [Parameter] public DialogType Type { get; set; }
    [Parameter] public RenderFragment ChildContent { get; set; }
 private Task Cancel()
