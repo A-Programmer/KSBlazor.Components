@@ -6,7 +6,7 @@
 
     
     <PackageId>KSBlazor.Components</PackageId>
-    <Version>1.4.21</Version>
+    <Version>1.4.22</Version>
     <Authors>Kamran Sadin</Authors>
     <Company>Sadin</Company>
     <CopyRight>Copyright (c) 2022 SadinCo.</CopyRight>
@@ -18,7 +18,7 @@
     <PackageTags>Sadin,Kamran,utility,dotnet,tools</PackageTags>
     <Title>KS Blazor Components</Title>
     <Description>Blazor Components based on AdminLTE admin template.</Description>
-    <ReleaseNotes>Adding form attribute to Dialog action buttons.</ReleaseNotes>
+    <ReleaseNotes>Fixing loading component.</ReleaseNotes>
     <RepositoryUrl>https://github.com/A-Programmer/KSBlazor.Components</RepositoryUrl>
     <LangVersion>10</LangVersion>
   </PropertyGroup>
